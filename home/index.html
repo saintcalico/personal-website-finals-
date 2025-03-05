@@ -69,6 +69,20 @@
                 </form>
          
                 <p v-if="confirmationMessage" class="confirmation"></p>
+                <!-- Add these lines -->
+<p v-if="isLoading" class="loading">Submitting...</p>
+<p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
+<!-- Display guestbook entries -->
+<div class="guestbook-entries">
+    <h3>Previous Messages</h3>
+    <div v-if="isLoading && guestbookEntries.length === 0" class="loading">Loading messages...</div>
+    <div v-for="entry in guestbookEntries" :key="entry.id" class="entry">
+        <p><strong>{{ entry.name }}</strong> - {{ new Date(entry.created_at).toLocaleDateString() }}</p>
+        <p>{{ entry.message }}</p>
+    </div>
+    <p v-if="guestbookEntries.length === 0 && !isLoading">No messages yet. Be the first to leave a message!</p>
+</div>
             </div>
         </div>
         
