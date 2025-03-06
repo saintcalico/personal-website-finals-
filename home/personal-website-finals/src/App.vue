@@ -1,716 +1,458 @@
 <template>
-  <div class="center-container">
-    <img src="https://raw.githubusercontent.com/saintcalico/webprogMI231-personal-website/midterm_draft/home/pingu.png" 
-         alt="Centered PNG" class="center-image" />
-    <h1>HI <br /> I'M FELIZ!</h1>
-    
-    <div class="folder-content-container">
-      <div v-if="activeSection === 'about'" id="about" class="folder-content">
-        <p>I'm an aspiring software engineer currently studying in Asia Pacific College...</p>
-      </div>
-      <div v-if="activeSection === 'it-experience'" id="it-experience" class="folder-content">
-        <li>I previously worked on "CropSurplus"...</li>
-        <li>I also worked on "FurBnB"...</li>
-      </div>
-      <div v-if="activeSection === 'education'" id="education" class="folder-content">
-        <li>Dean's Lister (A.Y. 2023-2024)</li>
-        <li>Graduated With Honors - Pasay City National Science High School</li>
-      </div>
-      <div v-if="activeSection === 'interests'" id="interests" class="folder-content">
-        <li>I'm interested in films...</li>
-        <li>I'm also interested in books...</li>
+  <div class="app-container">
+    <!-- Navigation folders on left side -->
+    <div class="folder-section left">
+      <div class="folder" @click="navigateTo('about')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>About me</span>
       </div>
       
-      <div v-if="activeSection === 'gallery'" id="gallery" class="folder-content">
-        <div class="gallery-container">
-          <figure v-for="photo in photos" :key="photo.name">
-            <img :src="getImageUrl(photo.url)" :alt="photo.name" />
-            <figcaption>{{ photo.name }}</figcaption>
-          </figure>
+      <div class="folder" @click="navigateTo('it-experience')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>IT experience</span>
+      </div>
+      
+      <div class="folder" @click="navigateTo('education')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>Education</span>
+      </div>
+      
+      <div class="folder" @click="navigateTo('interests')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>Interests</span>
+      </div>
+    </div>
+    
+    <!-- Center content with penguin and bio -->
+    <div class="center-content">
+      <div class="penguin-container">
+        <img src="./assets/images/pingu.png" alt="Feliz the penguin" class="penguin-image">
+        <div class="penguin-text">
+          <h1>HI</h1>
+          <h1>I'M FELIZ!</h1>
         </div>
       </div>
       
-      <div v-if="activeSection === 'goals'" id="goals" class="folder-content">
-        <strong>Goals</strong>
-        <li>My goal is to literally just get through my classes...</li>
-        <strong>References:</strong>
-        <li><a href="https://www.w3schools.com/vue/" target="_blank">Vue.js Docs</a></li>
-        <li><a href="https://www.w3schools.com/js/js_functions.asp" target="_blank">JavaScript Functions</a></li>
+      <!-- Bio section with conditional content based on navigation -->
+      <div class="bio-section">
+        <div v-if="currentSection === 'home'">
+          <p>
+            I'm an aspiring software engineer currently studying in Asia Pacific College,
+            enrolled in an undergrad program which is Bachelor of Science in Information
+            Technology with a specialization in Internet and Mobile Technologies.
+            Random facts about me: I have a dog with a human name, I'm an only child
+          </p>
+        </div>
+        
+        <div v-if="currentSection === 'about'">
+          <h2>About Me</h2>
+          <p>
+            Hello! I'm Feliz, an aspiring software engineer with a passion for creating 
+            innovative solutions. I'm currently pursuing my Bachelor's degree in Information Technology
+            with a focus on Internet and Mobile Technologies at Asia Pacific College.
+          </p>
+          <p>
+            When I'm not coding, I enjoy spending time with my dog and exploring new technologies.
+            I'm always eager to learn and take on new challenges in the tech world.
+          </p>
+        </div>
+        
+        <div v-if="currentSection === 'it-experience'">
+          <h2>IT Experience</h2>
+          
+          <ul>
+            <li>I previously worked on "CropSurplus" with my colleague Isaac Estabillo, it's an e-commerce app for overproduced goods. </li>
+            <li>I also worked on "FurBnB" with my colleagues Lalainne Andaya, Atasha Doria, and Michelle Pineda, it's an app for booking pet services </li>
+          </ul>
+        </div>
+        
+        <div v-if="currentSection === 'education'">
+          <h2>Education</h2>
+          <p>
+            <strong>Bachelor of Science in Information Technology</strong>
+            <br>
+            Specialization in Internet and Mobile Technologies
+            <br>
+            <li>Dean's Lister (A.Y. 2023-2024)</li>
+            <li>Graduated With Honors-Pasay City National Science High School(A.Y. 2022-2023)</li>
+            <li> Asia Pacific College | 2023-Present </li>
+          </p>
+          <p>
+            <strong>Relevant Coursework:</strong>
+          </p>
+          <ul>
+            <li>Web Programming</li>
+            <li>Mobile Application Development</li>
+            <li>Database Management</li>
+          </ul>
+        </div>
+        
+        <div v-if="currentSection === 'interests'">
+          <h2>Interests</h2>
+          <ul>
+            <li>I'm interested in films, you can add me on Letterboxd ihatefilmsboo.</li>
+            <li>I'm also interested in books, add me on goodreads!</li>
+          </ul>
+        </div>
+        
+        <div v-if="currentSection === 'gallery'">
+          <h2>Picture Gallery</h2>
+          <div class="gallery-grid">
+            <img src="./assets/images/f.jpg" alt="Feliz" class="gallery-image">
+            <img src="./assets/images/fel1.jpg" alt="Feliz" class="gallery-image">
+            <img src="./assets/images/fel2.jpg" alt="Feliz" class="gallery-image">
+          </div>
+        </div>
+        
+        <div v-if="currentSection === 'goals'">
+          <h2>Goals and References</h2>
+          <h3>Career Goals</h3>
+          <ul>
+            <li>My goal is to literally just get through my classes at this point. For now I don't have a long term goal.</li>
+          </ul>
+          
+          <h3>References</h3>
+          <p>
+            <li>https://www.w3schools.com/vue/</li> 
+            <li>https://www.w3schools.com/js/js_functions.asp</li>
+          </p>
+        </div>
+        
+        <div v-if="currentSection === 'contact'">
+          <h2>Contact Me</h2>
+          <p>
+            <strong>Email:</strong> feliz.salting@gmail.com
+            <br>
+            <strong>LinkedIn:</strong> Feliz Angelica Salting
+            <br>
+            <strong>GitHub:</strong> github.com/saintcalico
+          </p>
+          <p>
+            Feel free to reach out if you'd like to collaborate on a project
+            or just want to connect!
+          </p>
+          
+          <h6>SHARE YOUR COMMENTS</h6>
+          <div class="flex-item-survey">
+            <p v-if="message" :class="messageType">{{ message }}</p>
+            <input type="text" v-model="inpName" placeholder="Name">
+            <input type="text" v-model="inpSuggestion" placeholder="Comment/s*">
+            <button @click="submitSuggestion" :disabled="loading">
+              {{ loading ? "Submitting..." : "Submit" }}
+            </button>
+            <br><br>
+            <br>
+            <div data-layer="Line 1" class="Line1"></div>
+            <br>
+            <h6>YOUR COMMENTS</h6>
+            <table class="comment-table" v-if="comments.length">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="comment in comments" :key="comment.id">
+                  <td>{{ comment.name }}</td>
+                  <td>{{ comment.suggestion }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p v-else>No comments yet. Be the first to share your thoughts!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation folders on right side -->
+    <div class="folder-section right">
+      <div class="folder" @click="navigateTo('gallery')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>Picture Gallery</span>
       </div>
       
-      <div v-if="activeSection === 'contact'" id="contact" class="folder-content">
-        <p>Contact Me!.</p>
-        <form @submit.prevent="addEntry">
-          <div>
-            <p>Your Name:<br /><input type="text" v-model="name" required /></p>
-            <p>Your thoughts:<br /><input type="text" v-model="message" required /></p>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-        <p v-if="confirmationMessage">{{ confirmationMessage }}</p>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      <div class="folder" @click="navigateTo('goals')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>Goals and References</span>
       </div>
-    </div>
-    
-    <div class="folders left">
-      <div class="folder" @click="showContent('about')">
-        <img src="@/assets/images/file.png" alt="Folder" /> About me
-      </div>
-      <div class="folder" @click="showContent('it-experience')">
-        <img src="@/assets/images/file.png" alt="Folder" /> IT experience
-      </div>
-      <div class="folder" @click="showContent('education')">
-        <img src="@/assets/images/file.png" alt="Folder" /> Education
-      </div>
-      <div class="folder" @click="showContent('interests')">
-        <img src="@/assets/images/file.png" alt="Folder" /> Interests
-      </div>
-    </div>
-    
-    <div class="folders right">
-      <div class="folder" @click="showContent('gallery')">
-        <img src="@/assets/images/file.png" alt="Folder" /> Picture Gallery
-      </div>
-      <div class="folder" @click="showContent('goals')">
-        <img src="@/assets/images/file.png" alt="Folder" /> Goals and References
-      </div>
-      <div class="folder" @click="showContent('contact')">
-        <img src="@/assets/images/file.png" alt="Folder" /> Contact me
+      
+      <div class="folder" @click="navigateTo('contact')">
+        <img src="./assets/images/file.png" alt="Folder icon" class="folder-icon">
+        <span>Contact me</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { supabase } from "../src/supabase.js";
+import { createClient } from '@supabase/supabase-js'
+
+// Initialize Supabase client
+const supabaseUrl = 'https://wksimigtgkfcdutaacie.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indrc2ltaWd0Z2tmY2R1dGFhY2llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgyMTc4NjQsImV4cCI6MjA1Mzc5Mzg2NH0.eR1TH9Gj1GKxM5OR6M45-4q3-opnxOLaNcOOMooqehI'
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default {
+  name: 'App',
   data() {
     return {
-      activeSection: "about",
-      photos: [
-        { name: "Me and a cat", url: "fel2.jpg" },
-        { name: "My ID picture", url: "fel1.jpg" },
-        { name: "Me eating at Nanyang", url: "f.jpg" }
-      ],
-      name: "",
-      message: "",
-      guestbookEntries: [],
-      confirmationMessage: "",
-      isLoading: false,
-      errorMessage: ""
+      currentSection: 'home',
+      inpName: '',
+      inpSuggestion: '',
+      message: '',
+      messageType: '',
+      loading: false,
+      comments: []
     };
   },
   methods: {
-    async fetchEntries() {
-      try {
-        this.isLoading = true;
-        const { data, error } = await supabase.from("guestbook_entries").select("*").order("created_at", { ascending: false });
-        if (error) throw error;
-        this.guestbookEntries = data;
-      } catch (error) {
-        console.error("Error fetching entries:", error);
-        this.errorMessage = "Failed to load guestbook entries";
-      } finally {
-        this.isLoading = false;
-      }
+    navigateTo(section) {
+      this.currentSection = section;
     },
-    async addEntry() {
-      if (!this.name || !this.message) {
-        this.errorMessage = "Please provide both name and message";
+    
+    async submitSuggestion() {
+      // Validation
+      if (!this.inpName.trim()) {
+        this.showMessage('Please enter your name', 'error');
         return;
       }
+      
+      if (!this.inpSuggestion.trim()) {
+        this.showMessage('Please enter a comment', 'error');
+        return;
+      }
+      
+      // Set loading state
+      this.loading = true;
+      
       try {
-        this.isLoading = true;
-        const newEntry = { name: this.name, message: this.message, created_at: new Date().toISOString() };
-        const { data, error } = await supabase.from("guestbook_entries").insert([newEntry]).select();
-        if (error) throw error;
-        if (data && data.length > 0) {
-          this.guestbookEntries.unshift(data[0]);
-          this.confirmationMessage = `Your message has been submitted, ${this.name}!`;
-          this.name = "";
-          this.message = "";
-          setTimeout(() => { this.confirmationMessage = ""; }, 5000);
+        // Insert data into Supabase
+        const { data, error } = await supabase
+          .from('comments')
+          .insert([
+            { 
+              name: this.inpName.trim(), 
+              comment: this.inpSuggestion.trim() 
+            }
+          ]);
+          
+        if (error) {
+          throw error;
         }
+        
+        // Refresh comments list
+        this.fetchComments();
+        
+        // Reset form
+        this.inpName = '';
+        this.inpSuggestion = '';
+        
+        // Show success message
+        this.showMessage('Comment submitted successfully!', 'success');
       } catch (error) {
-        console.error("Error adding entry:", error);
-        this.errorMessage = "Failed to submit your message. Please try again.";
-        setTimeout(() => { this.errorMessage = ""; }, 5000);
+        console.error('Error submitting comment:', error);
+        this.showMessage('Failed to submit comment. Please try again.', 'error');
       } finally {
-        this.isLoading = false;
+        // Reset loading state
+        this.loading = false;
       }
     },
-    showContent(section) {
-      this.activeSection = section;
+    
+    async fetchComments() {
+      try {
+        // Fetch comments from Supabase
+        const { data, error } = await supabase
+          .from('comments')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (error) {
+          throw error;
+        }
+        
+        // Map the database fields to match the expected template fields
+        this.comments = data.map(item => ({
+          id: item.id,
+          name: item.name,
+          suggestion: item.comment // Map 'comment' from database to 'suggestion' for the template
+        }));
+        
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+        this.showMessage('Failed to load comments.', 'error');
+      }
     },
-    getImageUrl(imagePath) {
-      return new URL(`../assets/images/${imagePath}`, import.meta.url).href;
+    
+    showMessage(text, type) {
+      this.message = text;
+      this.messageType = type;
+      
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        this.message = '';
+      }, 3000);
     }
   },
-  mounted() {
-    this.fetchEntries();
+  async mounted() {
+    // Load existing comments from Supabase when component mounts
+    await this.fetchComments();
   }
 };
 </script>
 
-<style scoped>
-body {
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    margin: 0;
-  
-    font-family: Arial, sans-serif;
-  
-    background-color: #f3eac1;
-  
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8efbb; /* Light yellowish background */
+}
+
+.folder-section {
+  width: 200px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.folder:hover {
+  transform: scale(1.05);
+}
+
+.folder-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.folder span {
+  margin-top: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.center-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.penguin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.penguin-image {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.penguin-text {
+  margin-top: -40px; /* Overlap with the penguin image */
+  text-align: center;
+}
+
+.penguin-text h1 {
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+.bio-section {
+  background-color: #afba65; /* Greenish background for bio */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  text-align: left;
+  min-height: 200px;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.bio-section h2 {
+  margin-bottom: 15px;
+  border-bottom: 2px solid #7a9930;
+  padding-bottom: 5px;
+}
+
+.bio-section h3 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.bio-section p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.bio-section ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.bio-section ul li {
+  margin-bottom: 5px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
   }
   
-  
-  
-  .container {
-  
-    position: relative;
-  
+  .folder-section {
     width: 100%;
-  
-    height: 100vh;
-  
-  }
-  
-  
-  
-  .folders.left {
-  
-    position: absolute;
-  
-    top: 20%;
-  
-    left: 5%;
-  
-  }
-  
-  
-  
-  .folders.right {
-  
-    position: absolute;
-  
-    top: 20%;
-  
-    right: 5%;
-  
-  }
-  
-  
-  
-  .folder {
-  
-    display: flex;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    margin-bottom: 20px;
-  
-    cursor: pointer;
-  
-    font-weight: bold;
-  
-    color: black;
-  
-    text-align: center;
-  
-  }
-  
-  
-  
-  .folder img {
-  
-    width: 40px;
-  
-    height: 40px;
-  
-    margin-bottom: 5px;
-  
-  }
-  
-  
-  
-  h1 {
-  
-    position: absolute;
-  
-    top: 50%;
-  
-    left: 50%;
-  
-    transform: translate(-50%, -50%);
-  
-    margin: 0;
-  
-    font-size: 45px;
-  
-    font-weight: bold;
-  
-    text-align: center;
-  
-  }
-  
-  .folder-content-container {
-  
-    position: absolute;
-  
-    top: calc(50% + 100px);
-  
-    left: 50%;
-  
-    transform: translateX(-50%);
-  
-    display: flex;
-  
+    flex-direction: row;
     justify-content: center;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    width: 80%;
-  
-    max-width: 600px;
-  
-  }
-  
-  .confirmation {
-  
-    position: absolute;
-  
-    top: calc(50% + 100px);
-  
-    left: 35%;
-  
-    transform: translateX(-50%);
-  
-    display: flex;
-  
-    justify-content: center;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    width: 80%;
-  
-    max-width: 600px;
-  
-  }
-  
-  .center-container {
-  
-    display: flex;
-  
-    justify-content: center;
-  
-    align-items: center;
-  
-    height: 100vh;
-  
-    background-color: #f3eac1;
-  
-   }
-  
-   .center-image {
-  
-    max-width: 100%;
-  
-    max-height: 100%;
-  
-    object-fit: contain;
-  
-   }
-  
-   .gallery-container {
-  
-    display: flex;
-  
     flex-wrap: wrap;
-  
-    justify-content: center;
-  
-    gap: 20px;
-  
   }
   
-  figure {
-  
-    width: 120px;
-  
-    padding: 10px;
-  
-    background-color: #FFDAF1;
-  
-    color: #E37E91;
-  
-    border-radius: 10px;
-  
-    display: flex;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  
-  }
-  
-  
-  
-  img {
-  
-    width: 100%;
-  
-    height: auto;
-  
-    border-radius: 5px;
-  
-  }
-  
-  
-  
-  figcaption {
-  
-    margin-top: 10px;
-  
-    font-weight: bold;
-  
-    text-align: center;
-  
-  }
-  
-  .folder-content {
-  
-    display: none;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    justify-content: center;
-  
-    background-color: #b0ba63;
-  
-    border: 1px solid #ccc;
-  
-    padding: 20px;
-  
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-    border-radius: 10px;
-  
-    margin-top: 20px;
-  
-  }
-  
-  form p {
-  
-    margin: 15px 0;
-  
-    font-size: 14px;
-  
-    text-align: left;
-  
-    color: #FFDAF1;
-  
-  }
-  
-  
-  
-  form input, form textarea,
-  
-  form button {
-  
-    width: 100%;
-  
-    margin-top: 5px;
-  
-    padding: 10px;
-  
-    border-radius: 5px;
-  
-    border: 1px solid #E37E91;
-  
-    outline: none;
-  
-    font-size: 14px;
-  
-    box-sizing: border-box;
-  
-  }
-  
-  
-  
-  form input::placeholder,
-  
-  form textarea::placeholder {
-  
-    color: #E37E91;
-  
-  }
-  
-  
-  
-  form button {
-  
-    background-color: #E37E91;
-  
-    color: #FFDAF1;
-  
-    font-weight: bold;
-  
-    cursor: pointer;
-  
-    transition: background-color 0.3s ease;
-  
-  }
-  
-  
-  
-  form button:hover {
-  
-    background-color: #C85D73;
-  
-  }
-  
-  
-  
-  .confirmation {
-  
-    margin-top: 10px;
-  
-    font-size: 14px;
-  
-    color: #FFDAF1;
-  
-    font-weight: bold;
-  
-    text-align: center;
-  
-  }
-  
-  
-  
-  .folder-content.active {
-  
-    display: flex;}
-  
-    .folders.left {
-  
-    position: absolute;
-  
-    top: 20%;
-  
-    left: 5%;
-  
-  }
-  
-  
-  
-  .folders.right {
-  
-    position: absolute;
-  
-    top: 20%;
-  
-    right: 5%;
-  
-  }
-  
-  
-  
-  .folder {
-  
-    display: flex;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    margin-bottom: 20px;
-  
-    cursor: pointer;
-  
-    font-weight: bold;
-  
-    color: black;
-  
-    text-align: center;
-  
-  }
-  
-  
-  
-  .folder img {
-  
-    width: 40px;
-  
-    height: 40px;
-  
-    margin-bottom: 5px;
-  
-  }
-  
-  
-  
-  .folder-content-container {
-  
-    position: absolute;
-  
-    top: calc(50% + 100px);
-  
-    left: 50%;
-  
-    transform: translateX(-50%);
-  
-    display: flex;
-  
-    justify-content: center;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    width: 80%;
-  
-    max-width: 600px;
-  
-  }
-  
-  
-  
-  .folder-content {
-  
-    display: none;
-  
-    flex-direction: column;
-  
-    align-items: center;
-  
-    justify-content: center;
-  
-    background-color: #b0ba63;
-  
-    border: 1px solid #ccc;
-  
-    padding: 20px;
-  
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-    border-radius: 10px;
-  
-    margin-top: 20px;
-  
-  }
-  
-  
-  
-  .folder-content.active {
-  
-    display: flex;
-  
-  }
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url("https://raw.githubusercontent.com/saintcalico/webprogMI231-personal-website/webprogMI231-personal-website/main/home/bgg.jpg");
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-h1 {
-    position: relative;
-    font-size: 3rem;
-    color: #fff;
-    text-align: center;
-    -webkit-text-stroke: 0.1rem #252839;
-    text-transform: uppercase;
-    z-index: 2;
-}
-
-h1::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    color: #0ef;
-    -webkit-text-stroke: 0;
-    border-right: 2px solid #0ef;
-    overflow: hidden;
-    animation: animate 6s linear infinite;
-}
-
-@keyframes animate {
-    0%, 10%, 100% {
-        width: 0;
-    }
-    70%, 90% {
-        width: 100%;
-    }
-}
-
-/* Container Styling */
-.container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgba(232, 237, 217, 0.9); 
-    border-radius: 10px;
-    text-align: center;
-}
-.profile-image {
+  .penguin-image {
     width: 200px;
     height: 200px;
-    object-fit: cover;
-    border-radius: 50%; 
-    display: block;
-    margin: 0 auto;
-    border: 5px solid rgba(232, 237, 217, 0.9); 
-}
-
-/* Typography */
-h2 {
-    color: #555;
-    margin-bottom: 1rem;
-}
-
-.content {
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-h3 {
-    margin-top: 1rem;
-    font-size: 1rem;
-}
-
-/* Links */
-a:link, a:visited {
-    background-color: #f4f4f4;
-    color: black;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-a:hover, a:active {
-    background-color: red;
-    color: white;
+  }
+  
+  .bio-section {
+    max-width: 90%;
+  }
 }
 </style>
